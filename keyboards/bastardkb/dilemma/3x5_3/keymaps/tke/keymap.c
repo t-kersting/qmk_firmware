@@ -168,6 +168,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
+bool get_combo_must_tap(uint16_t index, combo_t *combo) {
+    return true;
+}
+
+bool get_combo_must_press_in_order(uint16_t index, combo_t *combo) {
+    return false;
+}
+
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
         // Keycodes that continue Caps Word, with shift applied.
