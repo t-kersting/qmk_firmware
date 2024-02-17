@@ -168,6 +168,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case CARET:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_GRV) SS_TAP(X_SPACE));
+            }
+            return false;
+        case G_ACC:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LSFT) SS_TAP(X_EQL) SS_UP(X_LSFT) SS_TAP(X_SPACE));
+            }
+            return false;
+        case ACUTE:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_EQL) SS_TAP(X_SPACE));
+            }
+            return false;
+    }
+    return true;
+}
+
 bool get_combo_must_tap(uint16_t index, combo_t *combo) {
     return true;
 }
