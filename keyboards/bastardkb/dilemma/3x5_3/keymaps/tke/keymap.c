@@ -15,8 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "action_util.h"
 #include "dilemma.h"
+#include "keycode.h"
 #include "keycodes.h"
+#include "process_caps_word.h"
 #include "process_combo.h"
 #include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
@@ -78,7 +81,7 @@ const uint16_t PROGMEM luy_combo[]         = {KC_L, KC_U, DE_Y, COMBO_END};
 const uint16_t PROGMEM eio_combo[]         = {MY_E, MY_I, MY_O, COMBO_END};
 const uint16_t PROGMEM xcd_combo[]         = {MY_X, KC_C, KC_D, COMBO_END};
 const uint16_t PROGMEM h_comma_dot_combo[] = {KC_H, KC_COMM, MY_DOT, COMBO_END};
-const uint16_t PROGMEM dh_capsword[]       = {KC_D, KC_U, COMBO_END};
+const uint16_t PROGMEM dh_combo[]          = {KC_D, KC_H, COMBO_END};
 
 // clang-format off
 combo_t key_combos[] = {
@@ -87,6 +90,7 @@ combo_t key_combos[] = {
     [C_OE] = COMBO(eio_combo, DE_ODIA), // ö
     [C_D_QUOTE] = COMBO(xcd_combo, S(KC_2)), // Double Quote
     [C_S_QUOTE] = COMBO(h_comma_dot_combo, S(DE_HASH)), // Single Quote
+    [C_CAPSWORD] = COMBO(dh_combo, QK_CAPS_WORD_TOGGLE)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -140,11 +144,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_MOUSE] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-       XXXXXXX, SNP_TOG, KC_WH_L, KC_WH_R, DRG_TOG,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX,
+       XXXXXXX, SNP_TOG, KC_WH_L, KC_WH_R, KC_WH_U,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX, KC_LALT, KC_LCTL, KC_LSFT, KC_WH_U,    XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,
+       XXXXXXX, KC_LALT, KC_LCTL, KC_LSFT, KC_WH_D,    XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX,     CUT,    COPY,   PASTE, KC_WH_D,    XXXXXXX, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R,
+       XXXXXXX,     CUT,    COPY,   PASTE, DRGSCRL,    XXXXXXX, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
                          KC_BTN3, KC_BTN1, KC_BTN2,    XXXXXXX, XXXXXXX, XXXXXXX
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
@@ -164,6 +168,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    return update_tri_layer_state(state, LAYER_NAV, LAYER_SYM, LAYER_NUM);
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+        case DE_MINS:
+            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+            return true;
+
+        default:
+            return false; // Deactivate Caps Word.
+    }
 }
