@@ -34,6 +34,7 @@ enum dilemma_keymap_layers {
     LAYER_FUN,
     LAYER_MOUSE,
     LAYER_EXTRA,
+    LAYER_CONFIG,
 };
 
 enum custom_keycodes {
@@ -58,6 +59,7 @@ enum combos {
 #define FUN LT(LAYER_FUN, KC_ESC)
 #define MOUSE_X LT(LAYER_MOUSE, DE_Z)
 #define EXT_MIN LT(LAYER_EXTRA, DE_MINS)
+#define CONF_SS LT(LAYER_CONFIG, DE_SS)
 
 #define MY_A LGUI_T(KC_A)
 #define MY_R LALT_T(KC_R)
@@ -68,9 +70,12 @@ enum combos {
 #define MY_E LCTL_T(KC_E)
 #define MY_I LALT_T(KC_I)
 #define MY_O LGUI_T(KC_O)
+#define MY_SQUO S(DE_HASH)
 
 #define MY_X RALT_T(KC_X)
 #define MY_DOT RALT_T(KC_DOT)
+
+#define SG_ACC S(G_ACC)
 
 #define PASTE LSFT(KC_INSERT)
 #define COPY LCTL(KC_INSERT)
@@ -97,7 +102,7 @@ combo_t key_combos[] = {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_BASE] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-          KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,       KC_J,    KC_L,    KC_U,    DE_Y,   DE_SS,
+          KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,       KC_J,    KC_L,    KC_U,    DE_Y, CONF_SS,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
           MY_A,    MY_R,    MY_S,    MY_T,    KC_G,       KC_M,    MY_N,    MY_E,    MY_I,    MY_O,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
@@ -121,9 +126,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_SYM] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-         CARET, DE_SLSH, DE_LCBR, DE_RCBR,   ACUTE,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+         CARET, DE_SLSH, DE_LCBR, DE_RCBR, DE_PIPE,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       DE_TILD, DE_HASH, DE_LABK, DE_RABK,   G_ACC,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+       DE_TILD, DE_HASH, DE_LABK, DE_RABK, DE_AMPR,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
        DE_CIRC, DE_ACUT, DE_LBRC, DE_RBRC, DE_BSLS,    XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT, XXXXXXX,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
@@ -168,6 +173,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   [LAYER_EXTRA] = LAYOUT_split_3x5_3(
+  // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
+       XXXXXXX,   G_ACC, DE_DQUO, MY_SQUO, XXXXXXX,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+  // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT, XXXXXXX,
+  // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
+                          KC_ESC,  KC_SPC,  KC_TAB,     KC_ENT, KC_BSPC,  KC_DEL
+  //                   ╰───────────────────────────╯ ╰──────────────────────────╯
+  ),
+
+  [LAYER_CONFIG] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
        RGB_TOG, RGB_MOD, RGB_HUI, RGB_SAI, RGB_VAI,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
