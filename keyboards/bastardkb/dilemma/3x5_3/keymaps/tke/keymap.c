@@ -47,8 +47,6 @@ enum combos {
     C_AE,
     C_UE,
     C_OE,
-    C_D_QUOTE,
-    C_S_QUOTE,
     C_CAPSWORD,
 };
 
@@ -82,20 +80,16 @@ enum combos {
 #define CUT LSFT(KC_DEL)
 
 // combos
-const uint16_t PROGMEM ars_combo[]         = {MY_A, MY_R, MY_S, COMBO_END};
-const uint16_t PROGMEM luy_combo[]         = {KC_L, KC_U, DE_Y, COMBO_END};
-const uint16_t PROGMEM eio_combo[]         = {MY_E, MY_I, MY_O, COMBO_END};
-const uint16_t PROGMEM xcd_combo[]         = {MY_X, KC_C, KC_D, COMBO_END};
-const uint16_t PROGMEM h_comma_dot_combo[] = {KC_H, KC_COMM, MY_DOT, COMBO_END};
-const uint16_t PROGMEM dh_combo[]          = {KC_D, KC_H, COMBO_END};
+const uint16_t PROGMEM ars_combo[] = {MY_A, MY_R, MY_S, COMBO_END};
+const uint16_t PROGMEM luy_combo[] = {KC_L, KC_U, DE_Y, COMBO_END};
+const uint16_t PROGMEM eio_combo[] = {MY_E, MY_I, MY_O, COMBO_END};
+const uint16_t PROGMEM dh_combo[]  = {KC_D, KC_H, COMBO_END};
 
 // clang-format off
 combo_t key_combos[] = {
     [C_AE] = COMBO(ars_combo, DE_ADIA), // ä
     [C_UE] = COMBO(luy_combo, DE_UDIA), // ü
     [C_OE] = COMBO(eio_combo, DE_ODIA), // ö
-    [C_D_QUOTE] = COMBO(xcd_combo, S(KC_2)), // Double Quote
-    [C_S_QUOTE] = COMBO(h_comma_dot_combo, S(DE_HASH)), // Single Quote
     [C_CAPSWORD] = COMBO(dh_combo, QK_CAPS_WORD_TOGGLE)
 };
 
