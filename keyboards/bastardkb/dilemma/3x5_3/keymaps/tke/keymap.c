@@ -221,6 +221,23 @@ bool get_combo_must_press_in_order(uint16_t index, combo_t *combo) {
     return false;
 }
 
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case NAV:
+        case NUM:
+        case SYM:
+        case FUN:
+        case MOUSE_X:
+        case EXT_MIN:
+        case CONF_SS:
+            // Immediately select the hold action when another key is tapped.
+            return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
+    }
+}
+
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
         // Keycodes that continue Caps Word, with shift applied.
