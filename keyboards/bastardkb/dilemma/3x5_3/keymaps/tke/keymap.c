@@ -21,6 +21,7 @@
 #include "keycodes.h"
 #include "process_caps_word.h"
 #include "process_combo.h"
+#include "progmem.h"
 #include "quantum_keycodes.h"
 #include QMK_KEYBOARD_H
 #include "keymap_german.h"
@@ -33,7 +34,7 @@ enum dilemma_keymap_layers {
     LAYER_NUM,
     LAYER_FUN,
     LAYER_MOUSE,
-    LAYER_EXTRA,
+    // LAYER_EXTRA,
     LAYER_CONFIG,
 };
 
@@ -47,6 +48,8 @@ enum combos {
     C_AE,
     C_UE,
     C_OE,
+    C_DQ,
+    C_SQ,
     C_CAPSWORD,
 };
 
@@ -83,6 +86,8 @@ enum combos {
 const uint16_t PROGMEM ars_combo[] = {MY_A, MY_R, MY_S, COMBO_END};
 const uint16_t PROGMEM luy_combo[] = {KC_L, KC_U, DE_Y, COMBO_END};
 const uint16_t PROGMEM eio_combo[] = {MY_E, MY_I, MY_O, COMBO_END};
+const uint16_t PROGMEM nei_combo[] = {MY_N, MY_E, MY_I, COMBO_END};
+const uint16_t PROGMEM rst_combo[] = {MY_R, MY_S, MY_T, COMBO_END};
 const uint16_t PROGMEM dh_combo[]  = {KC_D, KC_H, COMBO_END};
 
 // clang-format off
@@ -90,6 +95,8 @@ combo_t key_combos[] = {
     [C_AE] = COMBO(ars_combo, DE_ADIA), // ä
     [C_UE] = COMBO(luy_combo, DE_UDIA), // ü
     [C_OE] = COMBO(eio_combo, DE_ODIA), // ö
+    [C_SQ] = COMBO(nei_combo, MY_SQUO), // '
+    [C_DQ] = COMBO(rst_combo, DE_DQUO), // "
     [C_CAPSWORD] = COMBO(dh_combo, QK_CAPS_WORD_TOGGLE)
 };
 
@@ -100,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
           MY_A,    MY_R,    MY_S,    MY_T,    KC_G,       KC_M,    MY_N,    MY_E,    MY_I,    MY_O,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       MOUSE_X,    MY_X,    KC_C,    KC_D,    KC_V,       KC_K,    KC_H, KC_COMM,  MY_DOT, EXT_MIN,
+       MOUSE_X,    MY_X,    KC_C,    KC_D,    KC_V,       KC_K,    KC_H, KC_COMM,  MY_DOT, DE_MINS,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
                              FUN,     NAV,  KC_TAB,     KC_ENT,     NUM,     SYM
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
@@ -122,9 +129,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
          CARET, DE_SLSH, DE_LCBR, DE_RCBR, DE_PIPE,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       DE_TILD, DE_HASH, DE_LABK, DE_RABK, DE_AMPR,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+       DE_TILD, DE_HASH, DE_LABK, DE_RABK,   G_ACC,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       DE_CIRC, DE_ACUT, DE_LBRC, DE_RBRC, DE_BSLS,    XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT, XXXXXXX,
+       DE_CIRC, DE_BSLS, DE_LBRC, DE_RBRC, DE_ACUT,    XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT, XXXXXXX,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
                           KC_DOT,  DE_EQL, KC_COMM,    XXXXXXX, XXXXXXX, XXXXXXX
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
@@ -166,17 +173,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
   ),
 
-  [LAYER_EXTRA] = LAYOUT_split_3x5_3(
+  /* [LAYER_EXTRA] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX,   G_ACC, DE_DQUO, MY_SQUO, XXXXXXX,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
+       XXXXXXX,   G_ACC, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT, XXXXXXX,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
                           KC_ESC,  KC_SPC,  KC_TAB,     KC_ENT, KC_BSPC,  KC_DEL
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
-  ),
+  ), */
 
   [LAYER_CONFIG] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
@@ -228,7 +235,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
         case SYM:
         case FUN:
         case MOUSE_X:
-        case EXT_MIN:
+        // case EXT_MIN:
         case CONF_SS:
             // Immediately select the hold action when another key is tapped.
             return true;
