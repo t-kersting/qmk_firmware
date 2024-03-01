@@ -3,6 +3,7 @@
 // -Combos-
 #define COMBO_TERM 40
 #define COMBO_MUST_TAP_PER_COMBO
+#define COMBO_STRICT_TIMER
 
 // -Tap-Hold-
 #undef TAPPING_TERM
