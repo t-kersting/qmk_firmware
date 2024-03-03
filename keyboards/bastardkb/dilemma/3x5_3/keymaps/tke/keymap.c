@@ -57,7 +57,7 @@ enum combos {
 #define NAV LT(LAYER_NAV, KC_SPC)
 #define SYM LT(LAYER_SYM, KC_DEL)
 #define NUM LT(LAYER_NUM, KC_BSPC)
-#define FUN LT(LAYER_FUN, KC_ESC)
+#define FUN LT(LAYER_FUN, KC_ENT)
 #define MOUSE_X LT(LAYER_MOUSE, DE_Z)
 #define EXT_MIN LT(LAYER_EXTRA, DE_MINS)
 #define CONF_SS LT(LAYER_CONFIG, DE_SS)
@@ -109,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
        MOUSE_X,    MY_X,    KC_C,    KC_D,    KC_V,       KC_K,    KC_H, KC_COMM,  MY_DOT, DE_MINS,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-                             FUN,     NAV,  KC_TAB,     KC_ENT,     NUM,     SYM
+                          KC_ESC,     NAV,  KC_TAB,        FUN,     NUM,     SYM
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
   ),
 
@@ -151,13 +151,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_FUN] = LAYOUT_split_3x5_3(
   // ╭─────────────────────────────────────────────╮ ╭─────────────────────────────────────────────╮
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     KC_F12,   KC_F7,   KC_F8,   KC_F9, KC_PSCR,
+        KC_F12,   KC_F7,   KC_F8,   KC_F9, KC_PSCR,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,     KC_F11,   KC_F4,   KC_F5,   KC_F6, KC_SCRL,
+        KC_F11,   KC_F4,   KC_F5,   KC_F6, KC_SCRL,    XXXXXXX, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,
   // ├─────────────────────────────────────────────┤ ├─────────────────────────────────────────────┤
-       XXXXXXX, KC_RALT, XXXXXXX, XXXXXXX, XXXXXXX,     KC_F10,   KC_F1,   KC_F2,   KC_F3, KC_PAUS,
+        KC_F10,   KC_F1,   KC_F2,   KC_F3, KC_PAUS,    XXXXXXX, XXXXXXX, XXXXXXX, KC_RALT, XXXXXXX,
   // ╰─────────────────────────────────────────────┤ ├─────────────────────────────────────────────╯
-                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,  KC_APP, KC_CAPS
+                         XXXXXXX,  KC_APP, KC_CAPS,    XXXXXXX, XXXXXXX, XXXXXXX
   //                   ╰───────────────────────────╯ ╰──────────────────────────╯
   ),
 
