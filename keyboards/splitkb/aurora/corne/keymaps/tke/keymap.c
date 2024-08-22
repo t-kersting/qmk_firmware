@@ -1,4 +1,13 @@
 #include QMK_KEYBOARD_H
+#include "keymap_german.h"
+#include "sendstring_german.h"
+#include "action_util.h"
+#include "keycode.h"
+#include "keycodes.h"
+#include "process_caps_word.h"
+#include "process_combo.h"
+#include "progmem.h"
+#include "quantum_keycodes.h"
 
 enum layers {
     LAYER_BASE = 0,
@@ -9,6 +18,68 @@ enum layers {
     LAYER_MOUSE,
     // LAYER_EXTRA,
     LAYER_CONFIG,
+};
+
+enum custom_keycodes {
+    CARET = SAFE_RANGE,
+    G_ACC,
+    ACUTE,
+};
+
+enum combos {
+    C_AE,
+    C_UE,
+    C_OE,
+    C_DQ,
+    C_SQ,
+    C_CAPSWORD,
+};
+
+// keys
+#define NAV LT(LAYER_NAV, KC_SPC)
+#define SYM LT(LAYER_SYM, KC_DEL)
+#define NUM LT(LAYER_NUM, KC_BSPC)
+#define FUN LT(LAYER_FUN, KC_ENT)
+#define MOUSE_X LT(LAYER_MOUSE, DE_Z)
+#define EXT_MIN LT(LAYER_EXTRA, DE_MINS)
+#define CONF_SS LT(LAYER_CONFIG, DE_SS)
+
+#define MY_A LGUI_T(KC_A)
+#define MY_R LALT_T(KC_R)
+#define MY_S LCTL_T(KC_S)
+#define MY_T LSFT_T(KC_T)
+
+#define MY_N LSFT_T(KC_N)
+#define MY_E LCTL_T(KC_E)
+#define MY_I LALT_T(KC_I)
+#define MY_O LGUI_T(KC_O)
+#define MY_SQUO S(DE_HASH)
+
+#define MY_X RALT_T(KC_X)
+#define MY_DOT RALT_T(KC_DOT)
+
+#define SG_ACC S(G_ACC)
+
+#define PASTE LSFT(KC_INSERT)
+#define COPY LCTL(KC_INSERT)
+#define CUT LSFT(KC_DEL)
+
+// combos
+const uint16_t PROGMEM ars_combo[] = {MY_A, MY_R, MY_S, COMBO_END};
+const uint16_t PROGMEM luy_combo[] = {KC_L, KC_U, DE_Y, COMBO_END};
+const uint16_t PROGMEM eio_combo[] = {MY_E, MY_I, MY_O, COMBO_END};
+const uint16_t PROGMEM nei_combo[] = {MY_N, MY_E, MY_I, COMBO_END};
+const uint16_t PROGMEM rst_combo[] = {MY_R, MY_S, MY_T, COMBO_END};
+const uint16_t PROGMEM dh_combo[]  = {KC_D, KC_H, COMBO_END};
+
+// clang-format off
+combo_t key_combos[] = {
+    [C_AE] = COMBO(ars_combo, DE_ADIA), // ä
+    [C_UE] = COMBO(luy_combo, DE_UDIA), // ü
+    [C_OE] = COMBO(eio_combo, DE_ODIA), // ö
+    [C_SQ] = COMBO(nei_combo, MY_SQUO), // '
+    [C_DQ] = COMBO(rst_combo, DE_DQUO), // "
+    [C_CAPSWORD] = COMBO(dh_combo, QK_CAPS_WORD_TOGGLE)
 };
 
 // clang-format off
@@ -74,11 +145,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_MOUSE] = LAYOUT_split_3x6_3(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       XXXXXXX, XXXXXXX, SNP_TOG, KC_WH_L, KC_WH_R, KC_WH_U,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_L, KC_WH_R, KC_WH_U,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        XXXXXXX, XXXXXXX, KC_LALT, KC_LCTL, KC_LSFT, KC_WH_D,    XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, XXXXXXX,     CUT,    COPY,   PASTE, DRGSCRL,    XXXXXXX, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, XXXXXXX,
+       XXXXXXX, XXXXXXX,     CUT,    COPY,   PASTE, XXXXXXX,    XXXXXXX, KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, XXXXXXX,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   KC_BTN3, KC_BTN1, KC_BTN2,    XXXXXXX, KC_BSPC,  KC_DEL
   //                            ╰───────────────────────────╯ ╰──────────────────────────╯
@@ -109,6 +180,73 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 // clang-format on
+//
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case CARET:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_GRV) SS_TAP(X_SPACE));
+            }
+            return false;
+        case G_ACC:
+            if (record->event.pressed) {
+                SEND_STRING(SS_DOWN(X_LSFT) SS_TAP(X_EQL) SS_UP(X_LSFT) SS_TAP(X_SPACE));
+            }
+            return false;
+        case ACUTE:
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_EQL) SS_TAP(X_SPACE));
+            }
+            return false;
+    }
+    return true;
+}
+
+bool get_combo_must_tap(uint16_t index, combo_t *combo) {
+    return true;
+}
+
+bool get_combo_must_press_in_order(uint16_t index, combo_t *combo) {
+    return false;
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case NAV:
+        case NUM:
+        case SYM:
+        case FUN:
+        case MOUSE_X:
+        // case EXT_MIN:
+        case CONF_SS:
+            // Immediately select the hold action when another key is tapped.
+            return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
+    }
+}
+
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        // Keycodes that continue Caps Word, with shift applied.
+        case KC_A ... KC_Z:
+        case DE_MINS:
+            add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
+            return true;
+
+        // Keycodes that continue Caps Word, without shifting.
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+            return true;
+
+        default:
+            return false; // Deactivate Caps Word.
+    }
+}
+
 #ifdef OLED_ENABLE
 static void render_logo(void) {
     static const char PROGMEM qmk_logo[] = {0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, 0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0x00};
